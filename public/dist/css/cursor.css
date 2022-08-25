@@ -1,0 +1,5 @@
+a { cursor: pointer; }
+
+.cursor-wait {
+	cursor: wait !important;
+}
