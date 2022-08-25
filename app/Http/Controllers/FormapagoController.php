@@ -36,7 +36,7 @@ class FormapagoController extends Controller
       
         foreach ($result as $res) {
   
-         $boton_up=' <button  title="editar" class="btn btn-success" name="editar" onclick="mostrarmodal('.$res->id.');"><i class="fa fa-edit"></i> </button>';
+         $boton_up=' <button  title="editar" class="btn btn-secondary" name="editar" onclick="mostrarmodal('.$res->id.');"><i class="fa fa-edit"></i> </button>';
     
          $boton_elim=' <button title="eliminar" class="btn btn-danger" name="eliminar" onclick="elim('.$res->id.');"><i class="fa fa-trash"></i> </button>';
 

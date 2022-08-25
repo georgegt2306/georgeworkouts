@@ -5,7 +5,7 @@
     <div class="row"> 
         <div class="col-md-12">
           <div class="card">
-              <div class="card-header">
+              <div class="card-header text-white bg-dark">
                 <h2 class="card-title">Clientes </h2>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -253,8 +253,8 @@ $('input[name="rango"]').daterangepicker({
         text: "Desea eliminar este registro ? ",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: 'black',
+        cancelButtonColor: '#CFCFC7',
         confirmButtonText: 'Si',
         cancelButtonText: 'Cancelar'
       }).then((result) => {

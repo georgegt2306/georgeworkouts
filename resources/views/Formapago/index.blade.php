@@ -6,7 +6,7 @@
     <div class="row"> 
         <div class="col-md-12">
           <div class="card">
-              <div class="card-header">
+              <div class="card-header text-white bg-dark">
                 <h2 class="card-title">Forma de Pago</h2>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -17,7 +17,7 @@
               <div class="card-body">
                 
 
-                <button  type="button" title="Nuevo"  class="btn btn-primary" style="margin-bottom: 10px" data-toggle="modal" data-target="#modalcreate">Nuevo</button>   
+                <button  type="button" title="Nuevo"  class="btn btn-dark" style="margin-bottom: 10px" data-toggle="modal" data-target="#modalcreate">Nuevo</button>   
               
                 <div id="contenedor_principal" class="col-md-12" >
 
