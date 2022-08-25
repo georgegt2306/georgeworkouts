@@ -75,6 +75,8 @@ class ClienteController extends Controller
       try {
          DB::beginTransaction();
             
+
+
          if($request->formapago==1){
                      $id_cliente=Cliente::insertGetId([
                         'identificacion' => $request->ci_ruc,

@@ -40,7 +40,7 @@
                 <div class="form-group row">
                   <label for="ci_ruc" class="col-form-label col-sm-3">Cédula o Ruc:</label>
                   <div class="col-sm-7">
-                   <input  class="form-control" type="text" name="ci_ruc" id="ci_ruc" onkeypress="return justNumbers(event);" required pattern="[0-9]{10}|[0-9]{13}">  
+                   <input  class="form-control" type="text" name="ci_ruc" id="ci_ruc" onkeypress="return justNumbers(event);" >  
                    <div class="invalid-feedback">Ingrese Cédula o Ruc.</div> 
                     <span id="mensaje"></span>
                   </div>
