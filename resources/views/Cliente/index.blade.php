@@ -29,7 +29,7 @@
  <div class="modal fade" id="modalcreate" tabindex="-1" role="dialog" aria-labelledby="modalcreateTitle" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
           <div class="modal-content">
-            <form class="needs-validation" id="crear_vendedores" autocomplete="off" novalidate>
+            <form class="needs-validation" id="crear_clientes" autocomplete="off" novalidate>
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLongTitle">Nuevo</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -56,6 +56,13 @@
                   </div>
                 </div>
                 <div class="form-group row">
+                  <label for="celular" class="col-form-label col-sm-3">Celular:</label>
+                  <div class="col-sm-7">
+                  <input  class="form-control" type="text" name="celular" id="celular" onkeypress="return justNumbers(event);" > 
+                     <div class="invalid-feedback">Ingrese Celular.</div> 
+                  </div>
+                </div>
+                <div class="form-group row">
                   <label for="telefono" class="col-form-label col-sm-3">Forma de Pago:</label>
                   <div class="col-sm-7">
                       <select class="form-control" name="formapago" id="formapago">
@@ -64,14 +71,6 @@
                         @endforeach
                       </select>
                      <div class="invalid-feedback">Ingrese Teléfono.</div> 
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <label for="celular" class="col-form-label col-sm-3">Celular:</label>
-                  <div class="col-sm-7">
-                  <input  class="form-control" type="text" name="celular" id="celular" onkeypress="return justNumbers(event);" > 
-                     <div class="invalid-feedback">Ingrese Celular.</div> 
                   </div>
                 </div>
 
@@ -194,7 +193,7 @@ $('input[name="rango"]').daterangepicker({
     }
     consultar_tabla();
 
-    var form=document.getElementById('crear_vendedores');
+    var form=document.getElementById('crear_clientes');
     
     form.addEventListener('submit', (event) => {
      event.preventDefault();
@@ -244,7 +243,7 @@ $('input[name="rango"]').daterangepicker({
     function mostrarmodal(id){
         cursor_wait();
         $('button[name=editar]').attr('disabled',true);
-        $("#vistamodal_edit").load("{{asset('')}}vendedor/"+id+"/edit");
+        $("#vistamodal_edit").load("{{asset('')}}cliente/"+id+"/edit");
     }
 
     function elim(id){
@@ -261,7 +260,7 @@ $('input[name="rango"]').daterangepicker({
       }).then((result) => {
         if (result.value) {
             $.ajax({
-            url:"{{asset('')}}vendedor/"+id,
+            url:"{{asset('')}}cliente/"+id,
             headers :{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             type: 'DELETE',
             dataType: 'json',

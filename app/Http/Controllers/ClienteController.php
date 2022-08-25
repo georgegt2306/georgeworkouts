@@ -42,9 +42,9 @@ class ClienteController extends Controller
       
         foreach ($result as $res) {
    
-         $boton_up=' <button  title="editar" class="btn btn-success" name="editar" onclick="mostrarmodal('.$res->id.');"><i class="fa fa-edit"></i> </button>';
+         $boton_up=' <button  title="editar" class="btn btn-success" name="editar" onclick="mostrarmodal('.$res->codigo.');"><i class="fa fa-edit"></i> </button>';
     
-         $boton_elim=' <button title="eliminar" class="btn btn-danger" name="eliminar" onclick="elim('.$res->id.');"><i class="fa fa-trash"></i> </button>';
+         $boton_elim=' <button title="eliminar" class="btn btn-danger" name="eliminar" onclick="elim('.$res->codigo.');"><i class="fa fa-trash"></i> </button>';
    
          $button= $boton_up.''.$boton_elim;
 
@@ -75,8 +75,6 @@ class ClienteController extends Controller
       try {
          DB::beginTransaction();
             
-
-
          if($request->formapago==1){
                      $id_cliente=Cliente::insertGetId([
                         'identificacion' => $request->ci_ruc,
@@ -111,23 +109,34 @@ class ClienteController extends Controller
    }
 
    public function edit($id){
-      $result_edit=User::where('id',$id)->first();
-
-      return view('Vendedor.edit', compact('result_edit','id'));
+      $result_edit=Cliente::where('codigo',$id)->first();
+      $formapago_edit=Formapago::whereNull('deleted_at')->get();
+      return view('Cliente.edit', compact('result_edit','id','formapago_edit'));
    }
 
-   public function update($id){
-      $userid = \Auth::id();
-
+   public function update($id, Request $request){
+   
       try {
          DB::beginTransaction();
-            User::where('id', $id)->update([
-               'ci_ruc' => Input::get('ci_ruc_edit'),
-               'nombre' => Input::get('nombre_edit'),
-               'apellido' => Input::get('apellido_edit'),
-               'direccion' => Input::get('direccion_edit'),
-               'user_updated' => $userid
+         if($request->formapago==1){
+            Cliente::where('codigo', $id)->update([
+                        'identificacion' => $request->ci_ruc_edit,
+                        'nombre' => $request->nombre_edit,
+                        'celular' => $request->celular_edit,
+                        'formapago' => $request->formapago_edit,
             ]);
+                 
+                    
+         }else{
+             Cliente::where('codigo', $id)->update([
+               'identificacion' => $request->ci_ruc_edit,
+               'nombre' => $request->nombre_edit,
+               'celular' => $request->celular_edit,
+               'formapago' => $request->formapago_edit,
+               'fecha_ini' => $request->fecha_ini_edit,
+               'fecha_fin' => $request->fecha_fin_edit,
+            ]);           
+         }
          DB::commit();
          return response()->json(["sms"=>true, "mensaje"=>"Se edito correctamente"]);
       }catch(\Exception $e){
@@ -137,15 +146,14 @@ class ClienteController extends Controller
      
    }
    public function destroy($id){
-      $userid = \Auth::id();
+
       try 
           {
             DB::beginTransaction();
 
-            User::where('id', $id)->update([
+            User::where('codigo', $id)->update([
                'updated_at' =>now(),
                'deleted_at' =>now(),
-               'user_updated' => $userid
             ]);
 
        DB::commit();

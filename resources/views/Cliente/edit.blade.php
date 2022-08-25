@@ -12,49 +12,50 @@
 
 
                 <div class="form-group row">
-                <label for="nombre_edit" class="col-form-label col-sm-3">Nombre:</label>
+                <label for="ci_ruc_edit" class="col-form-label col-sm-3">Ci_Ruc:</label>
                   <div class="col-sm-7">
-                   <input  class="form-control" type="text" name="nombre_edit" id="nombre_edit" value="{{$result_edit->nombre}}"  required maxlength="50"> 
-                   <div class="invalid-feedback">Ingrese Nombre.</div> 
+                   <input  class="form-control" type="text" name="ci_ruc_edit" id="ci_ruc_edit" value="{{$result_edit->identificacion}}"  required pattern="[0-9]{10}|[0-9]{13}"> 
+                   <div class="invalid-feedback">Ingrese Cédula.</div> 
                   </div>
                 </div>
   
                 <div class="form-group row">
-                <label for="nombre" class="col-form-label col-sm-3">Nombre:</label>
+                <label for="nombre_edit" class="col-form-label col-sm-3">Nombre:</label>
                   <div class="col-sm-7">
-                   <input  class="form-control" type="text" name="nombre" id="nombre" required > 
+                   <input  class="form-control" type="text" name="nombre_edit" id="nombre_edit"  value="{{$result_edit->nombre}}" required > 
                    <div class="invalid-feedback" onkeypress="return soloLetras(event)">Ingrese Nombre.</div> 
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="telefono" class="col-form-label col-sm-3">Forma de Pago:</label>
-                  <div class="col-sm-7">
-                      <select class="form-control" name="formapago" id="formapago">
-                        @foreach($formapago as $fp)
-                        <option value="{{$fp->id}}" >{{$fp->nombre}}</option>
-                        @endforeach
-                      </select>
-                     <div class="invalid-feedback">Ingrese Teléfono.</div> 
                   </div>
                 </div>
 
                 <div class="form-group row">
-                  <label for="celular" class="col-form-label col-sm-3">Celular:</label>
+                  <label for="celular_edit" class="col-form-label col-sm-3">Celular:</label>
                   <div class="col-sm-7">
-                  <input  class="form-control" type="text" name="celular" id="celular" onkeypress="return justNumbers(event);" > 
+                  <input  class="form-control" type="text" name="celular_edit" id="celular_edit"  value="{{$result_edit->celular}}" onkeypress="return justNumbers(event);" required> 
                      <div class="invalid-feedback">Ingrese Celular.</div> 
                   </div>
                 </div>
 
-                 <div class="form-group row">
-                    <label for="nombre" class="col-form-label col-sm-3">Duración:</label>
+
+                <div class="form-group row">
+                  <label for="telefono" class="col-form-label col-sm-3">Forma de Pago:</label>
                   <div class="col-sm-7">
-                    <input class="form-control" type="text" name="rango" id="rango" >
+                      <select class="form-control" name="formapago_edit" id="formapago_edit">
+                        @foreach($formapago_edit as $fp_edit)
+                        <option value="{{$fp_edit->id}}" >{{$fp_edit->nombre}}</option>
+                        @endforeach
+                      </select>
+                     
                   </div>
-                  <input class="form-control" type="hidden" name="fecha_ini" id="fecha_ini" value="{{ now()->format('Ymd') }}" >
+                </div>
 
-
-                  <input class="form-control" type="hidden"  name="fecha_fin" id="fecha_fin" value="{{ now()->format('Ymd') }}">
+                <div class="form-group row">
+                    <label for="rango_edit" class="col-form-label col-sm-3">Duración:</label>
+                  <div class="col-sm-8">
+                  <input class="form-control" type="text" name="rango_edit" id="rango_edit" value="{{date('d/m/Y',strtotime($result_edit->fecha_ini))}} - {{date('d/m/Y',strtotime($result_edit->fecha_fin))}}" >
+                  </div>
+                  <input class="form-control" type="hidden" name="fecha_ini_edit" id="fecha_ini_edit" value="{{$result_edit->fecha_ini}}">
+ 
+                  <input class="form-control" type="hidden"  name="fecha_fin_edit" id="fecha_fin_edit" value="{{$result_edit->fecha_fin}}">
                 </div>
               
             </div>
@@ -64,10 +65,55 @@
             </div>
 </form>
 <script type="text/javascript">
-
+    $('#formapago_edit').val({{$result_edit->formapago}});
+    $('#formapago_edit').select2({
+      theme: 'bootstrap4'
+    })
 	  remove_cursor_wait();
 	  $('#modale').modal();
 	  $('button[name=editar]').attr('disabled',false);
+
+        $('input[name="rango_edit"]').daterangepicker({
+         drops: 'up',
+        opens: 'right',
+        "locale": {
+          "format": "DD/MM/YYYY",
+          "separator": " - ",
+          "applyLabel": "Aceptar",
+          "cancelLabel": "Cancelar",
+          "fromLabel": "Desde",
+          "toLabel": "Hasta",
+          "customRangeLabel": "Custom",
+          "weekLabel": "S",
+          "daysOfWeek": [
+            "Do",
+            "Lu",
+            "Ma",
+            "Mi",
+            "Ju",
+            "Vi",
+            "Sa"
+          ],
+          "monthNames": [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre"
+          ],
+          "firstDay": 1
+        }
+      }, function(start, end, label) {
+        $('#fecha_ini_edit').val(start.format('YYYYMMDD'));
+        $('#fecha_fin_edit').val(end.format('YYYYMMDD'));
+      });
 
     var form2=document.getElementById('edit_vendedor');
 
@@ -79,7 +125,7 @@
       }else {
         const edit_sup = new FormData(form2); 
             $.ajax({
-                url:"{{asset('')}}vendedor/{{$id}}",
+                url:"{{asset('')}}cliente/{{$id}}",
                 type: 'POST',
                 dataType: 'json',
                 contentType: false,
